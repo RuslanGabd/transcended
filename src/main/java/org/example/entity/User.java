@@ -12,9 +12,19 @@ public class User {
     @Id
     private Long id;
 
-    String Nickname;
-    String Password;
+    private String Nickname;
+    private String Password;
 
+    private String Name;
+    private String LastName;
+    private String Email;
+    private String Phone;
 
+    public User (String Nickname, String password, String email)
+    {
+        this.Nickname = Nickname;
+        this.Email = email;
+        this.Password = password;
+    }
 
 }

@@ -3,9 +3,9 @@ spring:
     name: transcended
 
   datasource:
-    url: jdbc:postgresql://localhost:5433/transcended
-    username: trans
-    password: trans
+    url: ${DB_URL:jdbc:postgresql://toolcompany.zapto.org:5433/alertsbot}
+    username: ${DB_USERNAME:alertsbot}
+    password: ${DB_PASSWORD:alertsbot}
     driver-class-name: org.postgresql.Driver
 
   jpa:
