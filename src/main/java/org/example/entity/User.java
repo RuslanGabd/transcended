@@ -1,6 +1,8 @@
 package org.example.entity;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,21 +16,24 @@ import lombok.Setter;
 @AllArgsConstructor
 public class User {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String Nickname;
-    private String Password;
+    private String nickname;
+    private String password;
 
-    private String Name;
-    private String LastName;
-    private String Email;
-    private String Phone;
+    private String name;
+    private String lastName;
+    private String email;
+    private String phone;
+    private List<Post> posts;
+
 
     public User (String Nickname, String password, String email)
     {
-        this.Nickname = Nickname;
-        this.Email = email;
-        this.Password = password;
+        this.nickname = Nickname;
+        this.email = email;
+        this.password = password;
     }
 
 }
