@@ -3,6 +3,7 @@ package org.example.entity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,11 +23,17 @@ public class Post {
     private Long id;
 
     private Long idUser;
+    private Long idChannel;
     private String title;
     private String content;
+
+    @OneToMany
     private List<Like> likes;
+    @OneToMany
     private List<Dislike> dislikes;
+    @OneToMany
     private List<Comment> comments;
+
     private LocalDateTime dataCreated;
     private LocalDateTime dataEdited;
     private LocalDateTime dataDeleted;
