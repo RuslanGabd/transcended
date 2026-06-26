@@ -15,13 +15,17 @@ public class PostController {
 
     private final PostService postService;
 
-    @PostMapping("/add")
-    public ResponseEntity<Long> addPost(@RequestBody PostCreateDto postCreateDto) {
+    @PostMapping("/new")
+    public ResponseEntity<Long> newPost(@RequestBody PostCreateDto postCreateDto) {
        Long postId = postService.createPost(postCreateDto);
        return ResponseEntity.status(HttpStatus.CREATED).body(postId);
     }
 
-    @DeleteMapping("/delete")
+    @DeleteMapping("/delete{postId}")
+    public ResponseEntity<Void> deletePost(@PathVariable Long postId, Long userId) {
+        postService.deletePost(postId);
+        return ResponseEntity.noContent().build();
+    }
 
     @GetMapping("/getId")
 
