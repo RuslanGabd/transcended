@@ -9,13 +9,14 @@ import lombok.Setter;
 import java.util.List;
 
 @Entity
+@Table(name = "channels")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Channel {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
