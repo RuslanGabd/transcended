@@ -1,5 +1,6 @@
 package org.example.service;
 
+import jakarta.validation.constraints.Null;
 import lombok.RequiredArgsConstructor;
 import org.example.dto.PostCreateDto;
 import org.example.dto.PostDto;
@@ -12,9 +13,11 @@ import org.example.repo.PostRepository;
 import org.example.repo.UserRepository;
 import org.springframework.stereotype.Service;
 
+import javax.management.RuntimeErrorException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -24,8 +27,12 @@ public class PostService {
     private final UserRepository userRepository;
     private final PostMapper postMapper;
 
+    public void test() {
+
+    }
+
     public Long createPost(PostCreateDto postCreateDto) {
-        User user = userRepository.findById(postCreateDto.getUserId()).orElseThrow(UserNotFoundException::new);;
+        User user = userRepository.findById(postCreateDto.getUserId()).orElseThrow(() -> new UserNotFoundException(postCreateDto.getUserId()));;
         Post post = postRepository.save(new Post(user, postCreateDto.getTitle(), postCreateDto.getContent()));
         return post.getId();
     }
@@ -53,12 +60,18 @@ public class PostService {
         return postMapper.toDto(post);
     }
 
-    public void getAllPosts() {
-        List<PostDto> result = new ArrayList<>();
-        for (Post post : postRepository.findAll()) {
-            PostDto dto = postMapper.toDto(post);
-            result.add(dto);
-        }
+    public List<PostDto> getAllPosts() {
+        return postRepository.findAll().stream()
+                .map(postMapper::toDto).toList();
+   }
 
+    public List<PostDto> getPostsByUser(Long userId) {
+        return postRepository.findByUserId(userId).stream()
+                .map(postMapper::toDto).toList();
+    }
+
+    public PostService getPostsByChannel(Long channelId) {
+        return postRepository.findByChannelId(channelId).stream()
+                .map(postMapper::toDto).toList();
     }
 }

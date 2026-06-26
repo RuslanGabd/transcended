@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.example.dto.PostCreateDto;
 
 import org.example.dto.PostDto;
-import org.example.entity.Post;
 import org.example.service.PostService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,20 +30,24 @@ public class PostController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/{postId}")
+    @GetMapping("/{id}")
     public ResponseEntity<PostDto> getPostById(@PathVariable Long postId) {
         PostDto post = postService.getPostById(postId);
         return ResponseEntity.ok(post);
     }
 
-    @GetMapping("/getAll")
-    public ResponseEntity<List<PostDto>> getAllPosts()
-    {
-        postService.getAllPosts();
-
+    @GetMapping("/all")
+    public ResponseEntity<List<PostDto>> getAllPosts() {
+        return ResponseEntity.ok(postService.getAllPosts());
     }
-    @GetMapping("/getByUser")
-    @GetMapping("/getByChannel")
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<PostDto>> getPostsByUser(@PathVariable Long userId) {
+        return ResponseEntity.ok(postService.getPostsByUser(userId));
+    }
+    @GetMapping("/channel/{channelId}")
+    public ResponseEntity<PostService> getPostsByChannel(@PathVariable Long channelId) {
+        return ResponseEntity.ok(postService.getPostsByChannel(channelId));
+    }
 
 
 }

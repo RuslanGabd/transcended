@@ -31,6 +31,9 @@ public class User {
     @OneToMany
     private List<Channel> channels;
 
+    private boolean onlineStatus;
+    private boolean bannedStatus;
+
 
     public User (String Nickname, String password, String email)
     {
@@ -38,6 +41,7 @@ public class User {
         this.email = email;
         this.password = password;
         this.role = UserRoles.USER;
+        this.bannedStatus = false;
     }
 
 }
