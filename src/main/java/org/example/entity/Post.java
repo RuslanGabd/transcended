@@ -44,4 +44,8 @@ public class Post {
         this.content = Text;
         this.dataCreated = LocalDateTime.now();
     }
+
+    public Post(User user, String title, String content) {
+        this.user = user;
+    }
 }
