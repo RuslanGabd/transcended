@@ -7,6 +7,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
+import java.time.LocalDateTime;
 
 
 @Data
@@ -21,4 +22,5 @@ public class PostCreateDto {
 
         @NotBlank(message = "Post can not be empty") @Size(max = 1024)
         private String content;
+
 }

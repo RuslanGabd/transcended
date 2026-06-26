@@ -1,17 +1,22 @@
 package org.example.service;
 
+import jakarta.validation.constraints.Null;
 import lombok.RequiredArgsConstructor;
 import org.example.dto.PostCreateDto;
+import org.example.dto.PostDto;
 import org.example.entity.Post;
 import org.example.entity.User;
 import org.example.entity.UserRoles;
 import org.example.exception.UserNotFoundException;
+import org.example.mapper.PostMapper;
 import org.example.repo.PostRepository;
 import org.example.repo.UserRepository;
 import org.springframework.stereotype.Service;
 
 import javax.management.RuntimeErrorException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -20,6 +25,7 @@ public class PostService {
 
     private final PostRepository postRepository;
     private final UserRepository userRepository;
+    private final PostMapper postMapper;
 
     public void test() {
 
@@ -43,8 +49,23 @@ public class PostService {
         postRepository.save(post);
     }
 
-    public Post getPostById(Long postId) {
-        return postRepository.findById(postId)
-                .orElseThrow(() -> new RuntimeException("Post not found"));
+    public PostDto getPostById(Long postId) {
+        Post post = postRepository.findById(postId)
+                        .orElseThrow(() -> new RuntimeException("Post not found"));
+
+        if (post.getDataDeleted() != null) {
+            throw new RuntimeException("Post has been deleted");
+        }
+
+        return postMapper.toDto(post);
+    }
+
+    public void getAllPosts() {
+        List<PostDto> result = new ArrayList<>();
+        for (Post post : postRepository.findAll()) {
+            PostDto dto = PostMapper.toDto(post);
+            result.add(dto);
+        }
+
     }
 }

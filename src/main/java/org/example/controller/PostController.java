@@ -3,11 +3,14 @@ package org.example.controller;
 import lombok.RequiredArgsConstructor;
 import org.example.dto.PostCreateDto;
 
+import org.example.dto.PostDto;
 import org.example.entity.Post;
 import org.example.service.PostService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/posts")
@@ -29,13 +32,17 @@ public class PostController {
     }
 
     @GetMapping("/{postId}")
-    public ResponseEntity<Post> getPostById(@PathVariable Long postId) {
-        Post post = postService.getPostById(postId);
+    public ResponseEntity<PostDto> getPostById(@PathVariable Long postId) {
+        PostDto post = postService.getPostById(postId);
         return ResponseEntity.ok(post);
     }
 
-
     @GetMapping("/getAll")
+    public ResponseEntity<List<PostDto>> getAllPosts()
+    {
+        postService.getAllPosts();
+
+    }
     @GetMapping("/getByUser")
     @GetMapping("/getByChannel")
 
