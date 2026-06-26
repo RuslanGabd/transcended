@@ -1,4 +1,15 @@
 package org.example.repo;
 
-public interface PostRepository {
+import org.example.entity.Post;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.List;
+
+
+public interface PostRepository extends JpaRepository<Post, Long> {
+
+    List<Post> findByTitleContainsIgnoreCase(String title);
+    List<Post> findByUser_NicknameContainsIgnoreCase(String userNickname);
+
+
 }

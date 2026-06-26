@@ -25,8 +25,6 @@ public class Channel {
     private User admin;
 
     @OneToMany
-    private List<User> moderators;
-    @OneToMany
     private List<User> members;
     @OneToMany
     private List<Post> posts;

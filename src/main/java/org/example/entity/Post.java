@@ -1,9 +1,7 @@
 package org.example.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,7 +20,10 @@ public class Post {
     @GeneratedValue
     private Long id;
 
-    private Long idUser;
+    @ManyToOne
+    @JsonIgnore
+    private User user;
+
     private Long idChannel;
     private String title;
     private String content;
