@@ -1,6 +1,5 @@
 package org.example.service;
 
-import jakarta.validation.constraints.Null;
 import lombok.RequiredArgsConstructor;
 import org.example.dto.PostCreateDto;
 import org.example.dto.PostDto;
@@ -13,11 +12,9 @@ import org.example.repo.PostRepository;
 import org.example.repo.UserRepository;
 import org.springframework.stereotype.Service;
 
-import javax.management.RuntimeErrorException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -27,12 +24,8 @@ public class PostService {
     private final UserRepository userRepository;
     private final PostMapper postMapper;
 
-    public void test() {
-
-    }
-
     public Long createPost(PostCreateDto postCreateDto) {
-        User user = userRepository.findById(postCreateDto.getUserId()).orElseThrow(() -> new UserNotFoundException(postCreateDto.getUserId()));;
+        User user = userRepository.findById(postCreateDto.getUserId()).orElseThrow(UserNotFoundException::new);;
         Post post = postRepository.save(new Post(user, postCreateDto.getTitle(), postCreateDto.getContent()));
         return post.getId();
     }
@@ -63,7 +56,7 @@ public class PostService {
     public void getAllPosts() {
         List<PostDto> result = new ArrayList<>();
         for (Post post : postRepository.findAll()) {
-            PostDto dto = PostMapper.toDto(post);
+            PostDto dto = postMapper.toDto(post);
             result.add(dto);
         }
 
