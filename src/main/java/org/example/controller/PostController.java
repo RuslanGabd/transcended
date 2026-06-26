@@ -3,6 +3,7 @@ package org.example.controller;
 import lombok.RequiredArgsConstructor;
 import org.example.dto.PostCreateDto;
 
+import org.example.entity.Post;
 import org.example.service.PostService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,13 +22,17 @@ public class PostController {
        return ResponseEntity.status(HttpStatus.CREATED).body(postId);
     }
 
-    @DeleteMapping("/delete{postId}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletePost(@PathVariable Long postId, Long userId) {
-        postService.deletePost(postId);
+        postService.deletePost(postId, userId);
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/getId")
+    @GetMapping("/{postId}")
+    public ResponseEntity<Post> getPostById(@PathVariable Long postId) {
+        Post post = postService.getPostById(postId);
+        return ResponseEntity.ok(post);
+    }
 
 
     @GetMapping("/getAll")

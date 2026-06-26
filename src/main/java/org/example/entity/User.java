@@ -27,6 +27,7 @@ public class User {
     private String lastName;
     private String email;
     private String phone;
+    private UserRoles role;
 
     @OneToMany
     private List<Post> posts;
@@ -39,6 +40,7 @@ public class User {
         this.nickname = Nickname;
         this.email = email;
         this.password = password;
+        this.role = UserRoles.USER;
     }
 
 }

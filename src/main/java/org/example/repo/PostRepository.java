@@ -12,7 +12,4 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     List<Post> findByTitleContainsIgnoreCase(String title);
 
     List<Post> findByUser_NicknameContainsIgnoreCase(String userNickname);
-
-
-    void changeToDeletedStatus(Long postId);
 }
