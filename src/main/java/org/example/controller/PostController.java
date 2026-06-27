@@ -45,7 +45,7 @@ public class PostController {
         return ResponseEntity.ok(postService.getPostsByUser(userId));
     }
     @GetMapping("/channel/{channelId}")
-    public ResponseEntity<PostService> getPostsByChannel(@PathVariable Long channelId) {
+    public ResponseEntity<List<PostDto>> getPostsByChannel(@PathVariable Long channelId) {
         return ResponseEntity.ok(postService.getPostsByChannel(channelId));
     }
 

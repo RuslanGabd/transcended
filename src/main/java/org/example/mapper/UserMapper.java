@@ -2,6 +2,8 @@ package org.example.mapper;
 
 import org.example.dto.UserDto;
 import org.example.entity.User;
+import org.example.entity.Channel;
+import org.example.entity.Post;
 import org.springframework.stereotype.Component;
 
 import java.util.Collections;
