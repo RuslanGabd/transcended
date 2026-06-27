@@ -23,12 +23,8 @@ public class PostService {
     private final UserRepository userRepository;
     private final PostMapper postMapper;
 
-    public void test() {
-
-    }
-
     public Long createPost(PostCreateDto postCreateDto) {
-        User user = userRepository.findById(postCreateDto.getUserId()).orElseThrow(UserNotFoundException::new);;
+        User user = userRepository.findById(postCreateDto.getUserId()).orElseThrow(() -> new UserNotFoundException(postCreateDto.getUserId()));
         Post post = postRepository.save(new Post(user, postCreateDto.getTitle(), postCreateDto.getContent()));
         return post.getId();
     }

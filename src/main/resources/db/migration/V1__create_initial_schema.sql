@@ -114,3 +114,11 @@ create table comments_dislikes (
     constraint fk_comments_dislikes_comment foreign key (comment_id) references comments (id),
     constraint fk_comments_dislikes_dislike foreign key (dislikes_id) references dislikes (id)
 );
+
+create table user_followers (
+                                user_id bigint not null,
+                                follower_id bigint not null,
+                                primary key (user_id, follower_id),
+                                constraint fk_user_followers_user foreign key (user_id) references users (id),
+                                constraint fk_user_followers_follower foreign key (follower_id) references users (id)
+);

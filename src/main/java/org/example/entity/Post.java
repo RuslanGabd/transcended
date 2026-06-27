@@ -25,7 +25,9 @@ public class Post {
     @JsonIgnore
     private User user;
 
-    private Long idChannel;
+    @ManyToOne
+    @JoinColumn(name = "id_channel")
+    private Channel channel;
     private String title;
     private String content;
 
@@ -40,13 +42,9 @@ public class Post {
     private LocalDateTime dataEdited;
     private LocalDateTime dataDeleted;
 
-    public Post(String Title, String Text) {
-        this.title = Title;
-        this.content = Text;
-        this.dataCreated = LocalDateTime.now();
-    }
-
     public Post(User user, String title, String content) {
         this.user = user;
+        this.title = title;
+        this.content = content;
     }
 }

@@ -45,9 +45,16 @@ public class User {
 
     @OneToMany
     private List<Post> posts;
+
     @OneToMany
     private List<Channel> channels;
 
+    @ManyToMany
+    @JoinTable(
+            name = "user_followers",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "follower_id")
+    )
     private List<User> followers;
 
     private boolean bannedStatus;
