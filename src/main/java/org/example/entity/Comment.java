@@ -1,11 +1,7 @@
 package org.example.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,8 +21,14 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long idPost;
-    private Long idUser;
+    @ManyToOne
+    @JsonIgnore
+    private User user;
+
+    @ManyToOne
+    @JsonIgnore
+    private Post post;
+
     private String content;
 
     @OneToMany
