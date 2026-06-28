@@ -23,10 +23,12 @@ public class Channel {
     private String description;
 
     @ManyToOne
+    @JoinColumn(name = "admin_id")
     private User admin;
 
-    @OneToMany
+    @ManyToMany(mappedBy = "channels")
     private List<User> members;
-    @OneToMany
+
+    @OneToMany(mappedBy = "channel")
     private List<Post> posts;
 }

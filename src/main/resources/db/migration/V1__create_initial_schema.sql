@@ -6,7 +6,11 @@ create table users (
     last_name varchar(255),
     email varchar(255),
     phone varchar(255),
-    followers_id bigint
+    role varchar(255) not null default 'USER',
+    online_status varchar(255) not null default 'OFFLINE',
+    last_seen_at timestamp(6),
+    banned_status boolean not null default false,
+    about varchar(255)
 );
 
 create table posts (
@@ -28,6 +32,9 @@ create table channels (
     admin_id bigint,
     constraint fk_channels_admin foreign key (admin_id) references users (id)
 );
+
+alter table posts
+    add constraint fk_posts_channel foreign key (channel_id) references channels (id);
 
 create table comments (
     id bigserial primary key,
@@ -53,32 +60,12 @@ create table dislikes (
     user_id bigint
 );
 
-create table users_posts (
+create table channel_members (
     user_id bigint not null,
-    posts_id bigint not null unique,
-    constraint fk_users_posts_user foreign key (user_id) references users (id),
-    constraint fk_users_posts_post foreign key (posts_id) references posts (id)
-);
-
-create table users_channels (
-    user_id bigint not null,
-    channels_id bigint not null unique,
-    constraint fk_users_channels_user foreign key (user_id) references users (id),
-    constraint fk_users_channels_channel foreign key (channels_id) references channels (id)
-);
-
-create table channels_members (
     channel_id bigint not null,
-    members_id bigint not null unique,
-    constraint fk_channels_members_channel foreign key (channel_id) references channels (id),
-    constraint fk_channels_members_user foreign key (members_id) references users (id)
-);
-
-create table channels_posts (
-    channel_id bigint not null,
-    posts_id bigint not null unique,
-    constraint fk_channels_posts_channel foreign key (channel_id) references channels (id),
-    constraint fk_channels_posts_post foreign key (posts_id) references posts (id)
+    primary key (user_id, channel_id),
+    constraint fk_channel_members_user foreign key (user_id) references users (id),
+    constraint fk_channel_members_channel foreign key (channel_id) references channels (id)
 );
 
 create table posts_likes (
@@ -93,13 +80,6 @@ create table posts_dislikes (
     dislikes_id bigint not null unique,
     constraint fk_posts_dislikes_post foreign key (post_id) references posts (id),
     constraint fk_posts_dislikes_dislike foreign key (dislikes_id) references dislikes (id)
-);
-
-create table posts_comments (
-    post_id bigint not null,
-    comments_id bigint not null unique,
-    constraint fk_posts_comments_post foreign key (post_id) references posts (id),
-    constraint fk_posts_comments_comment foreign key (comments_id) references comments (id)
 );
 
 create table comments_likes (

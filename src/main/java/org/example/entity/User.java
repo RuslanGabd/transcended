@@ -43,10 +43,18 @@ public class User {
 
     private LocalDateTime lastSeenAt;
 
-    @OneToMany
+    @OneToMany(mappedBy = "user")
     private List<Post> posts;
 
-    @OneToMany
+    @OneToMany(mappedBy = "admin")
+    private List<Channel> administrativeChannels;
+
+    @ManyToMany
+    @JoinTable(
+            name = "channel_members",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "channel_id")
+    )
     private List<Channel> channels;
 
     @ManyToMany
@@ -68,6 +76,7 @@ public class User {
         this.email = email;
         this.password = password;
         this.role = UserRoles.USER;
+        this.onlineStatus = UserStatus.OFFLINE;
         this.bannedStatus = false;
     }
 

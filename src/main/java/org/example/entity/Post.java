@@ -23,9 +23,11 @@ public class Post {
 
     @ManyToOne
     @JsonIgnore
+    @JoinColumn(name = "user_id")
     private User user;
 
     @ManyToOne
+    @JoinColumn(name = "channel_id")
     private Channel channel;
     private String title;
     private String content;
@@ -34,7 +36,7 @@ public class Post {
     private List<Like> likes;
     @OneToMany
     private List<Dislike> dislikes;
-    @OneToMany
+    @OneToMany(mappedBy = "post")
     private List<Comment> comments;
 
     private LocalDateTime dataCreated;

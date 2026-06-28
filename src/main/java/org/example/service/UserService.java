@@ -8,6 +8,7 @@ import org.example.repo.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
@@ -32,12 +33,13 @@ public class UserService {
     }
 
     @Scheduled(fixedRate = 120000) //every two minutes
+    @Transactional
     public void makeUserOnline() {
         userRepository.findAll().forEach(user -> {
-            if
-            (user.getLastSeenAt().isBefore(LocalDateTime.now().minusMinutes(1))) {
+            LocalDateTime offlineThreshold = LocalDateTime.now().minusMinutes(5);
+
+            if (user.getLastSeenAt() == null || user.getLastSeenAt().isBefore(offlineThreshold)) {
                 user.setOnlineStatus(UserStatus.OFFLINE);
-                userRepository.save(user);
             }
         });
     }

@@ -7,6 +7,7 @@ import org.example.dto.LoginRequest;
 import org.example.dto.RegisterRequest;
 import org.example.entity.User;
 import org.example.entity.UserRoles;
+import org.example.entity.UserStatus;
 import org.example.repo.UserRepository;
 import org.example.security.JwtService;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -51,6 +52,7 @@ public class AuthService {
         user.setLastName(request.lastName());
         user.setPhone(request.phone());
         user.setRole(UserRoles.USER);
+        user.setOnlineStatus(UserStatus.OFFLINE);
 
         User savedUser = userRepository.save(user);
 
