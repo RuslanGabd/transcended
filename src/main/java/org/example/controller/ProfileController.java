@@ -8,6 +8,8 @@ import org.example.dto.ProfileRequest;
 import org.example.service.ProfileService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,6 +35,13 @@ public class ProfileController {
                 .body(profileService.createProfile(userId, request));
     }
 
+
+    @GetMapping("/me")
+    public ProfileDto getMyProfile( @AuthenticationPrincipal Jwt jwt) {
+        Long userId = jwt.getClaim("userId");
+        return profileService.getProfileByUser(userId);
+    }
+
     @GetMapping("/{id}")
     public ProfileDto getProfile(@PathVariable @Min(1) Long id) {
         return profileService.getProfile(id);
@@ -46,9 +55,20 @@ public class ProfileController {
     @PutMapping("/{id}")
     public ProfileDto updateProfile(
             @PathVariable @Min(1) Long id,
-            @Valid @RequestBody ProfileRequest request
+            @Valid @RequestBody ProfileRequest request,
+            @AuthenticationPrincipal Jwt jwt
     ) {
-        return profileService.updateProfile(id, request);
+        Long userId = jwt.getClaim("userId");
+        return profileService.updateProfile(id, request, userId);
+    }
+
+    @PutMapping("/me")
+    public ProfileDto updateMyProfile(
+            @Valid @RequestBody ProfileRequest request,
+            @AuthenticationPrincipal Jwt jwt
+    ) {
+        Long userId = jwt.getClaim("userId");
+        return profileService.updateProfileByUser(userId, request);
     }
 
     @DeleteMapping("/{id}")

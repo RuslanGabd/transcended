@@ -4,18 +4,11 @@ import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.example.dto.UserDto;
 import org.example.service.UserService;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Objects;
 
 @RestController
 @RequestMapping("/api/v1/users")
@@ -25,26 +18,24 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("/{id}")
-    public UserDto getUser(@PathVariable("id") @Min(1) Long id, @RequestParam("idRequester") @Min(1) Long idRequester) {
+    public UserDto getUser(@PathVariable("id") @Min(1) Long id) {
         return userService.getUser(id);
     }
 
+    @GetMapping("/me")
+    public UserDto getMe(@AuthenticationPrincipal Jwt jwt) {
+        Long userId = jwt.getClaim("userId");
+        return userService.getUser(userId);
+    }
 
-    @PostMapping("api/v1/online")
+    @PostMapping("/online")
     public ResponseEntity<Void> markOnline(
             @AuthenticationPrincipal Jwt jwt
     ) {
-        String nickname = jwt.getSubject();
         Long userId = jwt.getClaim("userId");
         userService.writeLastSeenAt(userId);
 
         return ResponseEntity.noContent().build();
-    }
-
-    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
-    @GetMapping("/profile")
-    public String profile() {
-        return "Authenticated user";
     }
 
 //

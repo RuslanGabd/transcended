@@ -12,6 +12,7 @@ import org.example.repo.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -46,8 +47,19 @@ public class ProfileService {
                 .orElseThrow(() -> new IllegalArgumentException("Profile not found for user " + userId)));
     }
 
-    public ProfileDto updateProfile(Long id, ProfileRequest request) {
+    public ProfileDto updateProfile(Long id, ProfileRequest request, Long requesterId) {
         Profile profile = findProfile(id);
+        if (!Objects.equals(profile.getUser().getId(), requesterId)) {
+            throw new UserNotFoundException(requesterId);
+        }
+        applyRequest(profile, request);
+        profile.setUpdatedAt(LocalDateTime.now());
+        return profileMapper.toDto(profileRepository.save(profile));
+    }
+
+    public ProfileDto updateProfileByUser(Long userId, ProfileRequest request) {
+        Profile profile = profileRepository.findByUserId(userId)
+                .orElseThrow(() -> new IllegalArgumentException("Profile not found for user " + userId));
         applyRequest(profile, request);
         profile.setUpdatedAt(LocalDateTime.now());
         return profileMapper.toDto(profileRepository.save(profile));
