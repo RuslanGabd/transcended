@@ -29,9 +29,4 @@ public class Channel {
     private List<User> members;
     @OneToMany
     private List<Post> posts;
-
-    public Channel(String name, String description) {
-        this.name = name;
-        this.description = description;
-    }
 }

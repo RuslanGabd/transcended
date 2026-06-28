@@ -20,8 +20,10 @@ public class PostMapper {
         dto.setTitle(post.getTitle());
         dto.setContent(post.getContent());
 
-         dto.setIdComments(
-                post.getComments()
+        dto.setIdComments(
+                post.getComments() == null
+                        ? List.of()
+                        : post.getComments()
                         .stream()
                         .map(Comment::getId)
                         .collect(Collectors.toList())

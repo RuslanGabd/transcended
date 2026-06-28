@@ -5,13 +5,14 @@ create table users (
     name varchar(255),
     last_name varchar(255),
     email varchar(255),
-    phone varchar(255)
+    phone varchar(255),
+    followers_id bigint
 );
 
 create table posts (
     id bigserial primary key,
     user_id bigint,
-    id_channel bigint,
+    channel_id bigint,
     title varchar(255),
     content varchar(255),
     data_created timestamp(6),
@@ -30,8 +31,8 @@ create table channels (
 
 create table comments (
     id bigserial primary key,
-    id_post bigint,
-    id_user bigint,
+    post_id bigint,
+    user_id bigint,
     content varchar(255),
     data_created timestamp(6),
     data_edited timestamp(6),
@@ -40,16 +41,16 @@ create table comments (
 
 create table likes (
     id bigserial primary key,
-    id_post bigint,
-    id_comment bigint,
-    id_user bigint
+    post_id bigint,
+    comment_id bigint,
+    user_id bigint
 );
 
 create table dislikes (
     id bigserial primary key,
-    id_post bigint,
-    id_comment bigint,
-    id_user bigint
+    post_id bigint,
+    comment_id bigint,
+    user_id bigint
 );
 
 create table users_posts (
@@ -117,8 +118,8 @@ create table comments_dislikes (
 
 create table user_followers (
                                 user_id bigint not null,
-                                follower_id bigint not null,
-                                primary key (user_id, follower_id),
+                                followers_id bigint not null,
+                                primary key (user_id, followers_id),
                                 constraint fk_user_followers_user foreign key (user_id) references users (id),
-                                constraint fk_user_followers_follower foreign key (follower_id) references users (id)
+                                constraint fk_user_followers_follower foreign key (followers_id) references users (id)
 );

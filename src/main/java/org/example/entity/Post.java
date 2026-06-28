@@ -26,7 +26,6 @@ public class Post {
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "id_channel")
     private Channel channel;
     private String title;
     private String content;

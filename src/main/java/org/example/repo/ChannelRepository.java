@@ -1,4 +1,7 @@
 package org.example.repo;
 
-public interface ChannelRepository {
+import org.example.entity.Channel;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface ChannelRepository extends JpaRepository<Channel, Long> {
 }

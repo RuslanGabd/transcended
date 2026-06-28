@@ -36,6 +36,7 @@ public class UserController {
     ) {
         String nickname = jwt.getSubject();
         Long userId = jwt.getClaim("userId");
+        userService.writeLastSeenAt(userId);
 
         return ResponseEntity.noContent().build();
     }
