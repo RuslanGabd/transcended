@@ -44,7 +44,7 @@ public class LikeService {
     }
 
     public int getPostLikeCount(Long postId) {
-        return likeRepository.countsByPostId(postId);
+        return likeRepository.countByPostId(postId);
     }
 
     // COMMENTS
@@ -70,6 +70,6 @@ public class LikeService {
     }
 
     public int getCommentLikeCount(Long commentId) {
-        return likeRepository.countsByCommentId(commentId);
+        return likeRepository.countByCommentId(commentId);
     }
 }
