@@ -17,10 +17,15 @@ public class Dislike {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "post_id")
-    private Long idPost;
-    @Column(name = "comment_id")
-    private Long idComment;
-    @Column(name = "user_id")
-    private Long idUser;
+    @ManyToOne
+    @JoinColumn(name = "post_id")
+    private Post post;
+
+    @ManyToOne
+    @JoinColumn(name = "comment_id")
+    private Comment comment;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 }
