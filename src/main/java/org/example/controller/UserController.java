@@ -1,7 +1,11 @@
 package org.example.controller;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
+import org.example.dto.ChangePasswordRequest;
+import org.example.dto.ProfileDto;
+import org.example.dto.ProfileRequest;
 import org.example.dto.UserDto;
 import org.example.service.UserService;
 import org.springframework.http.ResponseEntity;
@@ -38,35 +42,25 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 
-//
-//    @PostMapping()
-//    public List<UserDto> getUsersByIds(@RequestBody List<Long> ids) {
-//        return userService.getUsersByIds(ids);
-//    }
-//
-//    @PutMapping(UrlUtils.ID + UrlUtils.AVATAR)
-//    public void updateUserAvatar(@PathVariable("id") @Min(1) Long id, @RequestBody MultipartFile avatar) {
-//        userService.updateUserAvatar(id, avatar);
-//    }
-//
-//    @GetMapping(value = UrlUtils.ID + UrlUtils.AVATAR + UrlUtils.SMALL)
-//    public ResponseEntity<byte[]> getSmallAvatar(@PathVariable("id") @Min(1) Long id) {
-//        return ResponseEntity.ok()
-//                .header(HttpHeaders.CONTENT_TYPE, MediaType.IMAGE_JPEG_VALUE)
-//                .body(userService.getUserAvatar(id, UserAvatarSize.SMALL));
-//    }
-//
-//    @GetMapping(value = UrlUtils.ID + UrlUtils.AVATAR + UrlUtils.LARGE)
-//    public ResponseEntity<byte[]> getLargeAvatar(@PathVariable("id") @Min(1) Long id) {
-//        return ResponseEntity.ok()
-//                .header(HttpHeaders.CONTENT_TYPE, MediaType.IMAGE_JPEG_VALUE)
-//                .body(userService.getUserAvatar(id, UserAvatarSize.LARGE));
-//    }
-//
-//    @DeleteMapping(UrlUtils.ID + UrlUtils.AVATAR)
-//    public void deleteUserAvatar(@PathVariable("id") @Min(1) Long id) {
-//        userService.deleteUserAvatar(id);
-//    }
+    @PutMapping("/update/{id}")
+    public UserDto updateMyProfile(
+            @Valid @RequestBody UserDto request,
+            @AuthenticationPrincipal Jwt jwt
+    ) {
+        Long userId = jwt.getClaim("userId");
+        return userService.updateUser(userId, request);
+    }
+
+    @PutMapping("/me/password")
+    public ResponseEntity<Void> changePassword(
+            @AuthenticationPrincipal Jwt jwt,
+            @RequestBody ChangePasswordRequest request
+    ) {
+        Long userId = jwt.getClaim("userId");
+        userService.changePassword(userId, request);
+        return ResponseEntity.noContent().build();
+    }
+
 }
 
 

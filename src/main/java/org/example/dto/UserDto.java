@@ -15,6 +15,7 @@ public record UserDto(
         String phone,
         UserRoles role,
         List<Long> postIds,
-        List<Long> channelIds
+        List<Long> channelIds,
+        String about
 ) {
 }

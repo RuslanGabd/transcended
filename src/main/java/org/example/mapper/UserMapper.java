@@ -26,7 +26,8 @@ public class UserMapper {
                 user.getPhone(),
                 user.getRole(),
                 extractPostIds(user.getPosts()),
-                extractChannelIds(user.getChannels())
+                extractChannelIds(user.getChannels()),
+                user.getAbout()
         );
     }
 
