@@ -71,7 +71,8 @@ public class PostService {
         return postRepository.findByChannelId(channelId).stream()
                 .map(postMapper::toDto).toList();
     }
-@Transactional
+
+    @Transactional
     public PostDto updatePost(Long postId, Long userId, @Valid PostDto postDto) {
         Post post = postRepository.findById(postId).orElseThrow(()->new IllegalArgumentException("Post not found"));
         if (!post.getUser().getId().equals(userId)) {

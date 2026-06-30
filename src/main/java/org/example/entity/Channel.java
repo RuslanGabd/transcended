@@ -1,5 +1,6 @@
 package org.example.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -23,6 +24,7 @@ public class Channel {
     private String description;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "admin_id")
     private User admin;
 
