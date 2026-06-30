@@ -39,6 +39,9 @@ public class Post {
     @OneToMany(mappedBy = "post")
     private List<Comment> comments;
 
+    @OneToMany(mappedBy = "post")
+    private List<PostAttachment> attachments;
+
     private LocalDateTime dataCreated;
     private LocalDateTime dataEdited;
     private LocalDateTime dataDeleted;
