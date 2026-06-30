@@ -27,6 +27,8 @@ public class PostDto {
 
     private List<Long> idComments;
 
+    private Long idChannel;
+
     @NotNull
     private LocalDateTime dataCreated;
 
