@@ -1,6 +1,7 @@
 package org.example.repo;
 
 import org.example.entity.Dislike;
+import org.example.service.DislikeService;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface DislikeRepository extends JpaRepository<Dislike, Long> {
@@ -9,4 +10,7 @@ public interface DislikeRepository extends JpaRepository<Dislike, Long> {
 
     boolean existsByCommentIdAndUserId(Long commentId, Long userId);
     void deleteByCommentIdAndUserId(Long commentId, Long userId);
+
+    DislikeService countByPostId(Long postId);
+    DislikeService countByCommentId(Long commentId);
 }
